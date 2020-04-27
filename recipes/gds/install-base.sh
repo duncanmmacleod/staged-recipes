@@ -1,6 +1,7 @@
 #!/bin/bash
 
 install_dirs=(
+config
 Base
 Math
 Containers

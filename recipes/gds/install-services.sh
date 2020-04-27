@@ -5,6 +5,7 @@ Triggers/trig
 Services/AlarmClient
 Services/AlarmMgr
 Services/NameClient
+Services/NameServer
 Services/TrigClient
 )
 
