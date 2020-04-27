@@ -1,0 +1,19 @@
+--- Base/Makefile.in     2020-04-24 00:50:14.000000000 +0100
++++ Base/Makefile.in  2020-04-24 09:34:31.000000000 +0100
+@@ -334,7 +334,7 @@
+ LAL_CFLAGS = @LAL_CFLAGS@
+ LAL_LIBS = @LAL_LIBS@
+ LD = @LD@
+-LDFLAGS = -pthread
++LDFLAGS = @LDFLAGS@
+ LDFLAGS_ENDGROUP = @LDFLAGS_ENDGROUP@
+ LDFLAGS_STARTGROUP = @LDFLAGS_STARTGROUP@
+ LIBOBJS = @LIBOBJS@
+@@ -580,6 +580,7 @@
+ AM_CFLAGS = -pthread $(WARNINGCFLAGS) $(opt) $(simd_cflags)
+ AM_CXXFLAGS = -pthread $(WARNINGCXXFLAGS) $(opt) $(simd_cflags) \
+                          $(zlibcflags)
++AM_LDFLAGS = $(LDFLAGS) -pthread
+
+ all: all-am
+

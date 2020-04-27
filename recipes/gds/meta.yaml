@@ -1,0 +1,348 @@
+{% set name = "gds" %}
+{% set version = "2.19.0" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: "https://software.igwn.org/lscsoft/source/{{ name }}-{{ version }}.tar.gz"
+  sha256: 4bf6fbdc67ba8b17647ba442fe434db60edf8d3bdba1ecaee6537c3b5a1ad3bb
+  patches:
+    - ldflags.patch
+    - termcap.patch
+
+build:
+  number: 0
+  skip: true  # [win]
+
+requirements:
+  build:
+    - {{ compiler('cxx') }}
+    - libtool  # [unix]
+    - make  # [unix]
+    - pkg-config  # [unix]
+  host:
+    - expat
+    - fftw
+    - jsoncpp
+    - krb5
+    - ldas-tools-al
+    - ldas-tools-framecpp
+    - libcurl
+    - metaio
+    - ncurses
+    - readline
+    - zlib
+
+outputs:
+  - name: gds-base
+    script: install-base.sh
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+      host:
+        - expat
+        - fftw
+        - jsoncpp
+        - libcurl
+        - metaio
+        - ncurses
+        - zlib
+      run:
+        - expat
+        - fftw
+        - jsoncpp
+        - libcurl
+        - metaio
+        - zlib
+    test:
+      requires:
+        - pkg-config  # [unix]
+      commands:
+        - pkg-config --print-errors --modversion gdsbase
+        - pkg-config --print-errors --modversion gdscntr
+        - pkg-config --print-errors --modversion gdsdaqs
+        - pkg-config --print-errors --modversion gdsdmtsigp
+        - pkg-config --print-errors --modversion gdsframefast
+        - pkg-config --print-errors --modversion gdsframeutil
+        - pkg-config --print-errors --modversion gdshtml
+        - pkg-config --print-errors --modversion gdsjsstack
+        - pkg-config --print-errors --modversion gdslmsg
+        - pkg-config --print-errors --modversion gdslxr
+        - pkg-config --print-errors --modversion gdsmath
+        - pkg-config --print-errors --modversion gdsparsl
+        - pkg-config --print-errors --modversion gdssockutil
+        - pkg-config --print-errors --modversion gdsxsil
+    about:
+      license: "GPL-2.0-only"
+      license_family: "GPL"
+      license_file: "COPYING"
+      summary: "Core libraries required by the rest of the GDS packages"
+
+  - name: gds-base-lowlatency
+    script: install-base-lowlatency.sh
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+      host:
+        - {{ pin_subpackage('gds-base', exact=True) }}
+        - zlib
+      run:
+        - {{ pin_subpackage('gds-base', exact=True) }}
+        - zlib
+    test:
+      commands:
+        - DpushM -h
+        - DpushRT -h
+        - DpushTease -h
+        - lsmp_mux -h
+        - smlatency --help
+        - smlist --help
+    about:
+      license: "GPL-2.0-only"
+      license_family: "GPL"
+      license_file: "COPYING"
+      summary: "GDS package Frame I/O libraries"
+
+  - name: gds-base-frameio
+    script: install-base-frameio.sh
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+      host:
+        - expat
+        - fftw
+        - {{ pin_subpackage('gds-base', exact=True) }}
+        - {{ pin_subpackage('gds-base-lowlatency', exact=True) }}
+        - ldas-tools-al
+        - ldas-tools-framecpp
+        - zlib
+      run:
+        - expat
+        - fftw
+        - {{ pin_subpackage('gds-base', exact=True) }}
+        - {{ pin_subpackage('gds-base-lowlatency', exact=True) }}
+        - ldas-tools-al
+        - ldas-tools-framecpp
+        - zlib
+    test:
+      requires:
+        - pkg-config
+      commands:
+        - fdir -h
+        - fextract -h
+        - finfo -h
+        - framedump -h
+        - fsettime -h
+        - pkg-config --print-errors --modversion gdsframeio
+    about:
+      license: "GPL-2.0-only"
+      license_family: "GPL"
+      license_file: "COPYING"
+      summary: "GDS package Frame I/O libraries"
+
+  - name: gds-base-crtools
+    script: install-base-crtools.sh
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+      host:
+        - expat
+        - fftw
+        - {{ pin_subpackage('gds-base', exact=True) }}
+        - {{ pin_subpackage('gds-base-lowlatency', exact=True) }}
+        - libcurl
+        - metaio
+        - ncurses
+        - readline
+        - zlib
+      run:
+        - expat
+        - fftw
+        - {{ pin_subpackage('gds-base', exact=True) }}
+        - {{ pin_subpackage('gds-base-lowlatency', exact=True) }}
+        - libcurl
+        - metaio
+        - ncurses
+        - readline
+        - zlib
+    test:
+      commands:
+        - test -x ${PREFIX}/bin/CY.robot  # [unix]
+        - test -x ${PREFIX}/bin/fantom  # [unix]
+        - udnls -h
+        - pkg-config --print-errors --modversion gdsdfm
+        - pkg-config --print-errors --modversion gdsdmtaccess
+        - pkg-config --print-errors --modversion gdsfantom
+    about:
+      license: "GPL-2.0-only"
+      license_family: "GPL"
+      license_file: "COPYING"
+      summary: "GDS package Frame I/O libraries"
+
+  - name: gds-base-gdstrig
+    script: install-base-gdstrig.sh
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+      host:
+        - {{ pin_subpackage('gds-base', exact=True) }}
+        - zlib
+      run:
+        - {{ pin_subpackage('gds-base', exact=True) }}
+        - zlib
+    test:
+      requires:
+        - pkg-config  # [unix]
+      commands:
+        - pkg-config --print-errors --modversion gdstrig  # [unix]
+    about:
+      license: "GPL-2.0-only"
+      license_family: "GPL"
+      license_file: "COPYING"
+      summary: "Ligo GDS trigger library"
+
+  - name: gds-base-monitors
+    script: install-base-monitors.sh
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+      host:
+        - expat
+        - fftw
+        - {{ pin_subpackage('gds-base', exact=True) }}
+        - {{ pin_subpackage('gds-base-gdstrig', exact=True) }}
+        - metaio
+        - zlib
+      run:
+        - expat
+        - fftw
+        - {{ pin_subpackage('gds-base', exact=True) }}
+        - {{ pin_subpackage('gds-base-gdstrig', exact=True) }}
+        - metaio
+        - zlib
+    test:
+      commands:
+        - test -f ${PREFIX}/lib/libmonitor${SHLIB_EXT}  # [unix]
+        - test -f ${PREFIX}/lib/libtclient${SHLIB_EXT}  # [unix]
+    about:
+      license: "GPL-2.0-only"
+      license_family: "GPL"
+      license_file: "COPYING"
+      summary: "GDS Libraries used by DMT Monitor programs"
+
+  - name: gds-base-runtime
+    script: install-base-runtime.sh
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+    test:
+      commands:
+        - test -x ${PREFIX}/bin/no_insert  # [unix]
+        - test -f ${PREFIX}/share/gds/procmgt/LHO_Monitor_Start  # [unix]
+    about:
+      license: "GPL-2.0-only"
+      license_family: "GPL"
+      license_file: "COPYING"
+      summary: "DMT run-time software"
+
+  - name: gds-base-web
+    script: install-base-web.sh
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+      host:
+        - expat
+        - fftw
+        - libcurl
+        - metaio
+        - zlib
+      run:
+        - expat
+        - fftw
+        - libcurl
+        - metaio
+        - zlib
+    test:
+      commands:
+        - webview -h
+        - webxmledit -h
+    about:
+      license: "GPL-2.0-only"
+      license_family: "GPL"
+      license_file: "COPYING"
+      summary: "DMT web services"
+
+  - name: gds-base-root
+    script: install-base-root.sh
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+      host:
+        - expat
+        - fftw
+        - {{ pin_subpackage('gds-base', exact=True) }}
+        - metaio
+        - zlib
+      run:
+        - expat
+        - fftw
+        - {{ pin_subpackage('gds-base', exact=True) }}
+        - metaio
+        - zlib
+    test:
+      commands:
+        - test -f ${PREFIX}/lib/libgdsevent${SHLIB_EXT}  # [unix]
+        - pkg-config --print-errors --modversion gdsevents  # [unix]
+    about:
+      license: "GPL-2.0-only"
+      license_family: "GPL"
+      license_file: "COPYING"
+      summary: "DMT web services"
+
+  - name: gds-services
+    script: install-services.sh
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+      host:
+        - expat
+        - fftw
+        - {{ pin_subpackage('gds-base', exact=True) }}
+        - {{ pin_subpackage('gds-base-gdstrig', exact=True) }}
+        - {{ pin_subpackage('gds-base-monitors', exact=True) }}
+        - metaio
+        - zlib
+      run:
+        - expat
+        - fftw
+        - {{ pin_subpackage('gds-base', exact=True) }}
+        - {{ pin_subpackage('gds-base-gdstrig', exact=True) }}
+        - {{ pin_subpackage('gds-base-monitors', exact=True) }}
+        - zlib
+    test:
+      commands:
+        - AlarmCtrl -h
+        - AlarmMgr -h
+        - NameCtrl --help
+        - NameServer --help
+        - TrigMgr --help
+        - TrigRndm --help
+    about:
+      license: "GPL-2.0-only"
+      license_family: "GPL"
+      license_file: "COPYING"
+      summary: "GDS runtime services"
+
+about:
+  license: "GPL-2.0-only"
+  license_family: "GPL"
+  license_file: "COPYING"
+  summary: "LIGO Global Diagnostics System"
+
+extra:
+  recipe-maintainers:
+    - duncanmmacleod
