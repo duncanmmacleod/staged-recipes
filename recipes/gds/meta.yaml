@@ -1,13 +1,13 @@
 {% set name = "gds" %}
-{% set version = "2.19.0" %}
+{% set version = "2.19.1" %}
 
 package:
-  name: "{{ name|lower }}"
-  version: "{{ version }}"
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-  url: "https://software.igwn.org/lscsoft/source/{{ name }}-{{ version }}.tar.gz"
-  sha256: 4bf6fbdc67ba8b17647ba442fe434db60edf8d3bdba1ecaee6537c3b5a1ad3bb
+  url: https://software.igwn.org/lscsoft/source/{{ name }}-{{ version }}.tar.gz
+  sha256: 6d53977e7538dcff1cf0f48a56ff7f08c05587b82708f6d3e32989f0b8d1e6dd
   patches:
     - ldflags.patch
     - termcap.patch
@@ -76,10 +76,10 @@ outputs:
         - pkg-config --print-errors --modversion gdssockutil
         - pkg-config --print-errors --modversion gdsxsil
     about:
-      license: "GPL-2.0-only"
-      license_family: "GPL"
-      license_file: "COPYING"
-      summary: "Core libraries required by the rest of the GDS packages"
+      license: GPL-2.0-only
+      license_family: GPL
+      license_file: COPYING
+      summary: Core libraries required by the rest of the GDS packages
 
   - name: gds-base-lowlatency
     script: install-base-lowlatency.sh
@@ -102,10 +102,10 @@ outputs:
         - smlatency --help
         - smlist --help
     about:
-      license: "GPL-2.0-only"
-      license_family: "GPL"
-      license_file: "COPYING"
-      summary: "GDS package Frame I/O libraries"
+      license: GPL-2.0-only
+      license_family: GPL
+      license_file: COPYING
+      summary: GDS package Frame I/O libraries
 
   - name: gds-base-frameio
     script: install-base-frameio.sh
@@ -139,10 +139,10 @@ outputs:
         - fsettime -h
         - pkg-config --print-errors --modversion gdsframeio
     about:
-      license: "GPL-2.0-only"
-      license_family: "GPL"
-      license_file: "COPYING"
-      summary: "GDS package Frame I/O libraries"
+      license: GPL-2.0-only
+      license_family: GPL
+      license_file: COPYING
+      summary: GDS package Frame I/O libraries
 
   - name: gds-base-crtools
     script: install-base-crtools.sh
@@ -178,10 +178,10 @@ outputs:
         - pkg-config --print-errors --modversion gdsdmtaccess
         - pkg-config --print-errors --modversion gdsfantom
     about:
-      license: "GPL-2.0-only"
-      license_family: "GPL"
-      license_file: "COPYING"
-      summary: "GDS package Frame I/O libraries"
+      license: GPL-2.0-only
+      license_family: GPL
+      license_file: COPYING
+      summary: GDS package Frame I/O libraries
 
   - name: gds-base-gdstrig
     script: install-base-gdstrig.sh
@@ -200,10 +200,10 @@ outputs:
       commands:
         - pkg-config --print-errors --modversion gdstrig  # [unix]
     about:
-      license: "GPL-2.0-only"
-      license_family: "GPL"
-      license_file: "COPYING"
-      summary: "Ligo GDS trigger library"
+      license: GPL-2.0-only
+      license_family: GPL
+      license_file: COPYING
+      summary: Ligo GDS trigger library
 
   - name: gds-base-monitors
     script: install-base-monitors.sh
@@ -229,10 +229,10 @@ outputs:
         - test -f ${PREFIX}/lib/libmonitor${SHLIB_EXT}  # [unix]
         - test -f ${PREFIX}/lib/libtclient${SHLIB_EXT}  # [unix]
     about:
-      license: "GPL-2.0-only"
-      license_family: "GPL"
-      license_file: "COPYING"
-      summary: "GDS Libraries used by DMT Monitor programs"
+      license: GPL-2.0-only
+      license_family: GPL
+      license_file: COPYING
+      summary: GDS Libraries used by DMT Monitor programs
 
   - name: gds-base-runtime
     script: install-base-runtime.sh
@@ -244,10 +244,10 @@ outputs:
         - test -x ${PREFIX}/bin/no_insert  # [unix]
         - test -f ${PREFIX}/share/gds/procmgt/LHO_Monitor_Start  # [unix]
     about:
-      license: "GPL-2.0-only"
-      license_family: "GPL"
-      license_file: "COPYING"
-      summary: "DMT run-time software"
+      license: GPL-2.0-only
+      license_family: GPL
+      license_file: COPYING
+      summary: DMT run-time software
 
   - name: gds-base-web
     script: install-base-web.sh
@@ -271,10 +271,10 @@ outputs:
         - webview -h
         - webxmledit -h
     about:
-      license: "GPL-2.0-only"
-      license_family: "GPL"
-      license_file: "COPYING"
-      summary: "DMT web services"
+      license: GPL-2.0-only
+      license_family: GPL
+      license_file: COPYING
+      summary: DMT web services
 
   - name: gds-base-root
     script: install-base-root.sh
@@ -298,10 +298,10 @@ outputs:
         - test -f ${PREFIX}/lib/libgdsevent${SHLIB_EXT}  # [unix]
         - pkg-config --print-errors --modversion gdsevents  # [unix]
     about:
-      license: "GPL-2.0-only"
-      license_family: "GPL"
-      license_file: "COPYING"
-      summary: "DMT web services"
+      license: GPL-2.0-only
+      license_family: GPL
+      license_file: COPYING
+      summary: DMT web services
 
   - name: gds-services
     script: install-services.sh
@@ -332,16 +332,16 @@ outputs:
         - TrigMgr --help
         - TrigRndm --help
     about:
-      license: "GPL-2.0-only"
-      license_family: "GPL"
-      license_file: "COPYING"
-      summary: "GDS runtime services"
+      license: GPL-2.0-only
+      license_family: GPL
+      license_file: COPYING
+      summary: GDS runtime services
 
 about:
-  license: "GPL-2.0-only"
-  license_family: "GPL"
-  license_file: "COPYING"
-  summary: "LIGO Global Diagnostics System"
+  license: GPL-2.0-only
+  license_family: GPL
+  license_file: COPYING
+  summary: LIGO Global Diagnostics System
 
 extra:
   recipe-maintainers:
