@@ -1,0 +1,24 @@
+--- ligo-proxy-init	2020-12-03 21:32:37.000000000 +0000
++++ ligo-proxy-init.2	2020-12-10 02:35:49.650000000 +0000
+@@ -34,14 +34,14 @@
+ # klist is required to check for valid kerberos ticket
+ # tempfile or mktemp is required for safe temporary files
+ 
+-type -P /usr/bin/curl >&/dev/null || { echo "This script requires curl. Aborting." >&2; exit 1; }
+-type -P /usr/bin/xsltproc >&/dev/null || { echo "This script requires xsltproc. Aborting." >&2; exit 1; }
+-type -P /usr/bin/openssl >&/dev/null || { echo "This script requires openssl. Aborting." >&2; exit 1; }
++type -P /opt/anaconda1anaconda2anaconda3/bin/curl >&/dev/null || { echo "This script requires curl. Aborting." >&2; exit 1; }
++type -P /opt/anaconda1anaconda2anaconda3/bin/xsltproc >&/dev/null || { echo "This script requires xsltproc. Aborting." >&2; exit 1; }
++type -P /opt/anaconda1anaconda2anaconda3/bin/openssl >&/dev/null || { echo "This script requires openssl. Aborting." >&2; exit 1; }
+ 
+-curl_command=/usr/bin/curl
+-xsltproc_command=/usr/bin/xsltproc
+-openssl_command=/usr/bin/openssl
+-klist_command=/usr/bin/klist
++curl_command=/opt/anaconda1anaconda2anaconda3/bin/curl
++xsltproc_command=/opt/anaconda1anaconda2anaconda3/bin/xsltproc
++openssl_command=/opt/anaconda1anaconda2anaconda3/bin/openssl
++klist_command=/opt/anaconda1anaconda2anaconda3/bin/klist
+ 
+ VERSION="1.3.6"
+ 
