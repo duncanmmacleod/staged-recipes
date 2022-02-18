@@ -1,0 +1,13 @@
+diff --git a/DMT/macros/rootlogon.C.in b/DMT/macros/rootlogon.C.in
+index 9684820d..80dd469b 100644
+--- a/DMT/macros/rootlogon.C.in
++++ b/DMT/macros/rootlogon.C.in
+@@ -2,7 +2,7 @@
+ cout << "LIGO Root initialization starting." << endl;
+ 
+ //--------------------------------------  Set up the include directories.
+-gInterpreter->AddIncludePath("@datadir@/@PACKAGE@/macros");
++gInterpreter->AddIncludePath("@datadir@/gds/macros");
+ gInterpreter->AddIncludePath("@includedir@");
+ 
+ //-------------------------------------  Load the shared libraries.
